@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Vökuró
 ======
 
@@ -53,3 +54,7 @@ Phalcon is an open source project and a volunteer effort. Vökuró does not have
 License
 -------
 Vökuró is open-sourced software licensed under the New BSD License.
+=======
+# invo-multimodule
+Invo MultiModule based on Vokuro, but better modules directory with their modules
+>>>>>>> 0298b868bd409fb3f19ea5df49e5248b35ebe3f2

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #################
 ## Eclipse
 #################
@@ -179,3 +180,7 @@ app/cache/volt/*.php
 vendor
 app/cache/metaData/*.php
 data.txt
+=======
+/cache/
+/config/development/
+>>>>>>> 0298b868bd409fb3f19ea5df49e5248b35ebe3f2
