@@ -37,12 +37,20 @@ try {
 
 } catch (PDOException $e) {
 
-  echo "<h2>PhalconPDO Exception" . $e->getMessage() . "<br />";
+  echo "<!DOCTYPE html>\n<html>\n<head>\n";
+  echo "<link href='/css/bootstrap.min.css' media='screen' rel='stylesheet' type='text/css' />\n";
+  echo "</head>\n";
+  echo "<body>\n";
+  echo "<div class='jumbotron'>\n";
+  echo "<h2>PhalconPDO Exception" . $e->getMessage() . "</h2><br />";
   echo "<strong>TraceAsString:</strong><br />\n";
   echo nl2br(htmlentities($e->getTraceAsString()));
+  echo "
+    </div>\n\n";
+  echo "</body>\n</html>";
+  exit;
 
 } catch (Exception $e) {
-
 
   if (preg_match("/Module (.*) isn't registered/ius", $e->getMessage()) == 1) {
     // caught module is not registered error!
