@@ -1,4 +1,8 @@
 <!-- /app/views/layouts/public.volt -->
+
+<!-- /app/views/layouts/public.volt -->
+
+<!-- /app/views/layouts/public.volt -->
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container" style="width: auto;">

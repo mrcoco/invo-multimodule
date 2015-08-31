@@ -31,7 +31,7 @@ try {
   $application = new \Phalcon\Mvc\Application($di);
 
   // register modules
-  //include APP_DIR . '/config/modules.php';
+  include APP_DIR . '/config/modules.php';
 
   echo $application->handle()->getContent();
 

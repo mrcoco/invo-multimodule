@@ -1,9 +1,9 @@
-<!-- /app/views/index.volt(!) -->
+<!-- /modules/companies(!)/views  -->
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to Main Demo Application (Vokuro)</title>
+    <title>Welcome to Vökuró</title>
     <link href="//netdna.bootstrapcdn.com/bootswatch/2.3.1/united/bootstrap.min.css" rel="stylesheet">
     {{ stylesheet_link('css/style.css') }}
 </head>

@@ -61,6 +61,7 @@ class Acl extends Component
     private $actionDescriptions = array(
         'index' => 'Access',
         'search' => 'Search',
+        'browse' => 'Browse',
         'create' => 'Create',
         'edit' => 'Edit',
         'delete' => 'Delete',

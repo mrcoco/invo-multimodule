@@ -132,6 +132,7 @@ $di->set('crypt', function () use ($config) {
 /**
  * Dispatcher use a default namespace
  */
+
 $di->set('dispatcher', function () {
   $dispatcher = new Dispatcher();
   $dispatcher->setDefaultNamespace('Vokuro\Controllers');
@@ -139,13 +140,20 @@ $di->set('dispatcher', function () {
   return $dispatcher;
 });
 
+
+
+
 /**
  * add router support.
  */
 $di->set('router', function () {
-  require __DIR__ . '/routes.php';
+  $router = require __DIR__ . '/routes.php';
+
   return $router;
 }); /* End the Router Support */
+
+
+
 
 /**
  * Register the flash service with custom CSS classes (from Bootstrap of course)

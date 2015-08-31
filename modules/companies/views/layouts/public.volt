@@ -1,11 +1,5 @@
-
-
-
-<!-- /app/views/layouts/private(!).volt -->
-
-
-
-<div class="navbar navbar-inverse">
+<!-- /module/Companies(!)/views/layouts/public.volt -->
+<div class="navbar">
     <div class="navbar-inner">
         <div class="container" style="width: auto;">
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -15,17 +9,11 @@
             </a>
             {{ link_to(null, 'class': 'brand', 'Vökuró') }}
             <div class="nav-collapse">
-
                 <ul class="nav">
 
                     {%- set menus = [
-                    'Home': null,
-                    'Companies': 'companies',
-                    'Invoices': 'invoices',
-                    'Products': 'products',
-                    'Users': 'users',
-                    'Profiles': 'profiles',
-                    'Permissions': 'permissions'
+                    'Home': 'index',
+                    'About': 'about'
                     ] -%}
 
                     {%- for key, value in menus %}
@@ -39,20 +27,29 @@
                 </ul>
 
                 <ul class="nav pull-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ auth.getName() }} <b
-                                    class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>{{ link_to('users/changePassword', 'Change Password') }}</li>
-                        </ul>
-                    </li>
-                    <li>{{ link_to('session/logout', 'Logout') }}</li>
+                    {%- if not(logged_in is empty) %}
+                        <li>{{ link_to('users', 'Users Panel') }}</li>
+                        <li>{{ link_to('session/logout', 'Logout') }}</li>
+                    {% else %}
+                        <li>{{ link_to('session/login', 'Login') }}</li>
+                    {% endif %}
                 </ul>
             </div>
+            <!-- /.nav-collapse -->
         </div>
     </div>
+    <!-- /navbar-inner -->
 </div>
 
-<div class="container">
+<div class="container main-container">
     {{ content() }}
 </div>
+
+<footer>
+    Made with love by the Phalcon Team
+
+    {{ link_to("privacy", "Privacy Policy") }}
+    {{ link_to("terms", "Terms") }}
+
+    © {{ date("Y") }} Phalcon Team.
+</footer>
