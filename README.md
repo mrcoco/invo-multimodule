@@ -28,7 +28,7 @@ Then you'll need to create the database and initialize schema:
     cat schemas/invo-multimodule.sql | mysql -u root invo-multimodule
 
 
-Foreign Keys
+Foreign Keyz
 ------------------------------------
 Read more about foreign keys in the documentation in /docs
 
