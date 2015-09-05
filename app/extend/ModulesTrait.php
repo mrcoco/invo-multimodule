@@ -101,6 +101,8 @@ trait ModulesTrait
           ));
           $compiler = $volt->getCompiler();
           $compiler->addFunction('is_a', 'is_a');
+          $compiler->addFunction('sprintf', 'sprintf');
+          $compiler->addFunction('strtotime', 'strtotime');
 
           return $volt;
         },
