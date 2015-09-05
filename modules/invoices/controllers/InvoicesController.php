@@ -18,13 +18,15 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
   public function initialize() {
     $this->tag->setTitle('Manage your Invoices');
     $this->view->setTemplateBefore('private');
-    //parent::initialize();
+    parent::initialize();
   }
 
   /**
    *
    */
   public function browseAction() {
+    echo "browseAction (Invoices)<br />";
+    /*
     // generate some form for delete action
     $form = new \Phalcon\Forms\Form();
     $csrf = new \Phalcon\Forms\Element\Hidden('csrf', ['value' => $this->security->getToken()]);
@@ -55,14 +57,15 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
     );
     $this->view->setVar('page', $paginator->getPaginate());
     unset($current_page, $invoices, $paginator);
-  }	/* browseAction */
+    */
+  }  /* browseAction */
 
   /**
    * Shows the form to create a new invoice
    */
   public function newAction() {
     $this->view->form = new \Modules\Invoices\Forms\InvoicesForm(null, array());
-  }	/* newAction */
+  }  /* newAction */
 
   /**
    *
@@ -225,7 +228,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('invoices/new');
+        return $this->response->redirect('invoices/add');
       }
 
       if ($invoice->save() == false) {
@@ -233,7 +236,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        $this->response->redirect('invoices/index/new');
+        $this->response->redirect('invoices/add');
       }
 
       $form->clear();
@@ -242,7 +245,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
 
       return $this->response->redirect('/invoices');
     }
-  }	/* saveAction */
+  }  /* saveAction */
 
   /**
    * Deletes an invoice
@@ -268,7 +271,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
     $this->flash->success("Invoice was deleted");
 
     $this->response->redirect("invoices");
-  }	/* deleteAction */
+  }  /* deleteAction */
 
   /**
    *

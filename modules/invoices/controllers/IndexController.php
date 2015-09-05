@@ -15,6 +15,7 @@ class IndexController extends \Vokuro\Controllers\BaseController
    */
   public function initialize() {
     $this->tag->setTitle('Manage your Invoices');
+    $this->view->setTemplateBefore('private');
     parent::initialize();
   }
 

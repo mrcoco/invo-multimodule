@@ -16,6 +16,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
    */
   public function initialize() {
     $this->tag->setTitle('Manage your Products');
+    $this->view->setTemplateBefore('private');
     parent::initialize();
   }
 
@@ -53,12 +54,16 @@ class ProductsController extends \Vokuro\Controllers\BaseController
     unset($current_page, $products, $paginator);
   }  /* indexAction */
 
+
   /**
    * Shows the form to create a new product
    */
   public function newAction() {
+    echo "test";
     $this->view->form = new ProductsForm(null, array());
+    $this->view->pick('index/form');
   } /* newAction*/
+
 
   /**
    *
@@ -157,14 +162,14 @@ class ProductsController extends \Vokuro\Controllers\BaseController
   public function createAction() {
     $dispatcher = new Dispatcher;
     if (!$this->request->isPost()) {
+      echo "no post!";
       $dispatcher->forward(array(
         'namespace'  => '\\Modules\\Products\\Controllers',
         'module'     => 'products',
-        'controller' => 'index',
-        'action'     => 'index'
+        'controller' => 'products',
+        'action'     => 'browse'
       ));
-
-      return false;
+      //return false;
     } else {
       $form = new \Modules\Products\Forms\ProductsForm(null, array());
       $product = new \Modules\Products\Models\Products();
@@ -176,7 +181,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('products/index/add');
+        return $this->response->redirect('products/add');
       }
 
       if ($product->save() == false) {
@@ -188,7 +193,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
             $this->flash->error($message);
           }
         }
-        $this->response->redirect('products/index/add');
+        $this->response->redirect('products/add');
 
         return false;
       }
@@ -197,7 +202,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
 
       $this->flash->success("Product was created successfully");
 
-      return $this->response->redirect('/products/index');
+      return $this->response->redirect('/products');
     }
   }  /* createAction */
 

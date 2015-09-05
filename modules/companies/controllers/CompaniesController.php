@@ -19,7 +19,7 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
   public function initialize() {
     $this->tag->setTitle('Manage your Companies');
     $this->view->setTemplateBefore('private');
-    //parent::initialize();
+    parent::initialize();
   }
 
   /**
@@ -57,7 +57,7 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
     $this->view->setVar('page', $paginator->getPaginate());
     unset($current_page, $companies, $paginator);
 
-  }	/* browseAction */
+  }  /* browseAction */
 
   /**
    * Shows the form to create a new company
@@ -182,14 +182,16 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        $this->response->redirect('companies/index/add');
+        $this->response->redirect('companies/add');
+
+        return false;
       }
 
       $form->clear();
 
       $this->flash->success("Company was created successfully");
 
-      return $this->response->redirect('/companies/index');
+      return $this->response->redirect('/companies');
     }
   } /* createAction */
 
@@ -227,7 +229,7 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/new');
+        return $this->response->redirect('companies/add');
       }
 
       if ($company->save() == false) {
@@ -235,7 +237,7 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        $this->response->redirect('companies/index/new');
+        $this->response->redirect('companies/add');
       }
 
       $form->clear();

@@ -1,9 +1,4 @@
-
-
-
 <!-- /app/views/layouts/private(!).volt -->
-
-
 
 <div class="navbar navbar-inverse">
     <div class="navbar-inner">

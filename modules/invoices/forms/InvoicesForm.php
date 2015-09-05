@@ -20,19 +20,19 @@ class InvoicesForm extends Form
   public function initialize($entity = null, array $options = []) {
 
     // csrf
-/*
-    $csrf = new Hidden('csrf');
-    $csrf->addValidator(
-      new Identical(
-        array(
-          'value'   => $this->security->getSessionToken(),
-          'message' => 'CSRF validation failed'
-        )
-      )
-    );
-    $this->add($csrf);
-    unset($csrf);
-*/
+    /*
+        $csrf = new Hidden('csrf');
+        $csrf->addValidator(
+          new Identical(
+            array(
+              'value'   => $this->security->getSessionToken(),
+              'message' => 'CSRF validation failed'
+            )
+          )
+        );
+        $this->add($csrf);
+        unset($csrf);
+    */
 
     // id
     // We don't need to add the ID when we are Adding a new Invoice, only when we are editing a new Company
@@ -58,9 +58,9 @@ class InvoicesForm extends Form
     $this->add($name);
     unset($name);
 
-/*
-More invoice fields and their types!
-*/
+    /*
+    More invoice fields and their types!
+    */
 
 
   } /* initialize */

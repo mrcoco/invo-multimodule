@@ -182,7 +182,7 @@ class CompaniesController extends Controller
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/index/add');
+        return $this->response->redirect('companies/add');
       }
 
       if ($company->save() == false) {

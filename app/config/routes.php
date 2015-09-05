@@ -146,13 +146,31 @@ $router->add('/companies/:action/:params', array(
   'params'     => 2
 ));
 
-$router->add("/invoices", array(
+/*
+ *  OK, so when certain routes get redirected to /companies/index you get a blank page.
+ *  That can be solved easily by creating a controller action indexAction, but I need to fix other things first
+ *  So a quick fix at the bottom(!) of all the companies routes(!) and it works
+ **/
+$router->add('/companies/index', array(
+  'namespace'  => 'Modules\Companies\Controllers',
+  'module'     => 'companies',
+  'controller' => 'companies',
+  'action'     => 'browse'
+));
+
+$router->add("/invoices/index", array(
   'namespace'  => 'Modules\Invoices\Controllers',
   'module'     => 'invoices',
   'controller' => 'invoices',
   'action'     => 'browse'
 ));
 
+$router->add("/invoices", array(
+  'namespace'  => 'Modules\Invoices\Controllers',
+  'module'     => 'invoices',
+  'controller' => 'invoices',
+  'action'     => 'browse'
+));
 
 $router->add("/invoices/:action/:params", array(
   'namespace'  => 'Modules\Invoices\Controllers',
@@ -162,13 +180,19 @@ $router->add("/invoices/:action/:params", array(
   'params'     => 2
 ));
 
-$router->add('/products', array(
+$router->add('/products/index', array(
   'namespace'  => 'Modules\Products\Controllers',
   'module'     => 'products',
   'controller' => 'products',
   'action'     => 'browse'
 ));
 
+$router->add('/products', array(
+  'namespace'  => 'Modules\Products\Controllers',
+  'module'     => 'products',
+  'controller' => 'products',
+  'action'     => 'browse'
+));
 
 $router->add("/products/:action/:params", array(
   'namespace'  => 'Modules\Products\Controllers',
@@ -177,5 +201,15 @@ $router->add("/products/:action/:params", array(
   'action'     => 1,
   'params'     => 2
 ));
+
+/*
+$router->add("/products/create", array(
+  'namespace'  => 'Modules\Products\Controllers',
+  'module'     => 'products',
+  'controller' => 'products',
+  'action'     => 'create'
+  ));
+*/
+
 
 return $router;

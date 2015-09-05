@@ -10,7 +10,8 @@ use Phalcon\Mvc\Model\Metadata\Files as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Flash\Session as FlashSession;
+//use Phalcon\Flash\Direct as Flash;
 
 use Vokuro\Auth\Auth;
 use Vokuro\Acl\Acl;
@@ -36,9 +37,15 @@ $di->set('url', function () use ($config) {
   return $url;
 }, true); /* End the Url Component */
 
+
+
+
 /**
  * Setting up the view component
  */
+/*
+ *  The View di shouldn't be neede here. Right now it's needed for items like 'about', 'contact', etc.
+ **/
 $di->set('view', function () use ($config) {
 
   $view = new View();
@@ -54,6 +61,8 @@ $di->set('view', function () use ($config) {
         'compiledPath'      => $config->application->cacheDir . 'volt/',
         'compiledSeparator' => '_'
       ));
+      $compiler = $volt->getCompiler();
+      $compiler->addFunction('is_a', 'is_a');
 
       return $volt;
     }
@@ -61,6 +70,11 @@ $di->set('view', function () use ($config) {
 
   return $view;
 }, true);
+
+
+
+
+
 
 /**
  * Database connection is created based in the parameters defined in the configuration file
@@ -158,7 +172,7 @@ $di->set('router', function () {
  * Register the flash service with custom CSS classes (from Bootstrap of course)
  */
 $di->set('flash', function () {
-  return new Flash(array(
+  return new FlashSession(array(
     'error'   => 'alert alert-danger',
     'success' => 'alert alert-success',
     'notice'  => 'alert alert-info',

@@ -69,5 +69,5 @@ class ProductsForm extends Form
       ))
     ));
     $this->add($price);
-  }	/* initialize */
+  }  /* initialize */
 }

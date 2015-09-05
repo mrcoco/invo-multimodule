@@ -71,9 +71,10 @@ trait ModulesTrait
        **/
       //echo "my moduletype is ".$ModuleType."<br />";
 
-      if ($ModuleType == "modules") {
+      if ($ModuleType == "module") {
         $view->setLayoutsDir("../../../app/views/layouts/");
       } else {
+        //echo "why is my ".$module_full_path." moduletype core?<br />";
         //$ModuleType = 'core';
         $view->setLayoutsDir("layouts/");
       }
@@ -99,6 +100,8 @@ trait ModulesTrait
             'compiledPath'      => $config->application->cacheDir . 'volt/',
             'compiledSeparator' => '_'
           ));
+          $compiler = $volt->getCompiler();
+          $compiler->addFunction('is_a', 'is_a');
 
           return $volt;
         },

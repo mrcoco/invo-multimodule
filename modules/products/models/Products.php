@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Products\Models;
 
 class Products extends \Phalcon\Mvc\Model
@@ -14,11 +13,12 @@ class Products extends \Phalcon\Mvc\Model
   /**
    * Products initializer
    */
-  public function initialize()
-  {
-    $this->belongsTo('product_types_id', 'ProductTypes', 'id', array(
+  public function initialize() {
+    /*
+    $this->hasMany('product_types_id', 'Modules\Models\ProductTypes', 'id', array(
       'reusable' => true
     ));
+    */
   }
 
   /**
@@ -35,15 +35,13 @@ class Products extends \Phalcon\Mvc\Model
    *
    * @return string
    */
-  public function getActiveDetail()
-  {
+  public function getActiveDetail() {
     if ($this->active == 'Y') {
       return 'Yes';
     }
+
     return 'No';
   }
-
-
 
 
 }

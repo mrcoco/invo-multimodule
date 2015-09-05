@@ -5,7 +5,7 @@
         {{ link_to("companies", "&larr; Go Back") }}
     </li>
     <li class="pull-right">
-        {{ link_to("companies/new", "Create companies") }}
+        {{ link_to("companies/add", "Create companies") }}
     </li>
 </ul>
 
@@ -14,7 +14,6 @@
         <table class="table table-bordered table-striped" align="center">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Telephone</th>
             <th>Address</th>
@@ -24,7 +23,6 @@
     {% endif %}
     <tbody>
     <tr>
-        <td>{{ company.id }}</td>
         <td>{{ company.name }}</td>
         <td>{{ company.telephone }}</td>
         <td>{{ company.address }}</td>

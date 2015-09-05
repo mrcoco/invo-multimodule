@@ -10,7 +10,7 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 use \Phalcon\Mvc\Controller;
 
 
-class IndexController extends \Vokuro\Controllers\
+class IndexController extends \Vokuro\Controllers\BaseController
 {
 
   /**
@@ -18,7 +18,8 @@ class IndexController extends \Vokuro\Controllers\
    */
   public function initialize() {
     $this->tag->setTitle('Manage your Companies');
-    //parent::initialize();
+    $this->view->setTemplateBefore('private');
+    parent::initialize();
   }
 
   /**
@@ -55,7 +56,7 @@ class IndexController extends \Vokuro\Controllers\
     );
     $this->view->setVar('page', $paginator->getPaginate());
     unset($current_page, $companies, $paginator);
-  }	/* indexAction */
+  }  /* indexAction */
 
 
 }

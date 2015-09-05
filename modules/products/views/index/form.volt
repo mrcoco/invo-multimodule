@@ -12,7 +12,7 @@ if ($this->dispatcher->getActionName() == "edit") {
   echo $this->tag->form(array('products/index/save', 'role' => 'form'));
 } else {
   echo "<h1>Add a Product</h1>";
-  echo $this->tag->form(array('products/index/create'));
+  echo $this->tag->form(array('products/create'));
 }
 ?>
 
