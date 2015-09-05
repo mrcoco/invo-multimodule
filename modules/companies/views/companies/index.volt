@@ -1,5 +1,7 @@
 {{ content() }}
 
+{{ flash.output() }}
+
 <div align="right">
     {{ link_to("companies/add", "Create Companies", "class": "btn btn-primary") }}
 </div>

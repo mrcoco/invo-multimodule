@@ -1,5 +1,7 @@
 {{ content() }}
 
+{{ flash.output() }}
+
 <ul class="pager">
     <li class="previous pull-left">
         {{ link_to("companies", "&larr; Go Back") }}

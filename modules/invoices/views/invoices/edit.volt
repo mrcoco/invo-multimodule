@@ -1,3 +1,4 @@
+{{ flash.output() }}
 
 {{ form("companies/save", 'role': 'form') }}
 

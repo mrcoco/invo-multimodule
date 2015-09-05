@@ -1,3 +1,5 @@
+{{ flash.output() }}
+
 {{ form("companies/save", 'role': 'form') }}
 
 <ul class="pager">

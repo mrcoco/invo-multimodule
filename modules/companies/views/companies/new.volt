@@ -1,5 +1,7 @@
 {{ content() }}
 
+{{ flash.output() }}
+
 {{ form("companies/create") }}
 
 <ul class="pager">

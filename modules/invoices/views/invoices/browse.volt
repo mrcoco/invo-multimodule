@@ -1,3 +1,5 @@
+{{ flash.output() }}
+
 <p>
     <h2>Your Invoices (not from DB Yet)</h2>
 </p>

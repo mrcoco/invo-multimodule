@@ -47,8 +47,6 @@
     </div>
 </div>
 
-{{ flash.output() }}
-
 <div class="container">
     {{ content() }}
 </div>
