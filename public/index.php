@@ -7,7 +7,7 @@ try {
   /**
    * Define some useful constants
    */
-  define('BASE_DIR', dirname(__DIR__));
+  define('BASE_DIR', str_replace('\\', '/', dirname(__DIR__)));
   define('APP_DIR', BASE_DIR . '/app');
 
   /**
