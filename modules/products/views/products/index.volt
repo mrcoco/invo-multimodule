@@ -6,7 +6,7 @@
     {{ link_to("products/add", "Create Products", "class": "btn btn-primary") }}
 </div>
 
-{{ form("products/search") }}
+{{ form("products/browse") }}
 
 <h2>Search products</h2>
 
