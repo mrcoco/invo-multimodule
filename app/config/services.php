@@ -38,8 +38,6 @@ $di->set('url', function () use ($config) {
 }, true); /* End the Url Component */
 
 
-
-
 /**
  * Setting up the view component
  */
@@ -70,10 +68,6 @@ $di->set('view', function () use ($config) {
 
   return $view;
 }, true);
-
-
-
-
 
 
 /**
@@ -119,10 +113,6 @@ $di->set('loggerFile', function () use ($config) {
 }); /* End the Logger File */
 
 
-
-
-
-
 /**
  * Start the session the first time some component requests the session service
  */
@@ -155,7 +145,6 @@ $di->set('dispatcher', function () {
 */
 
 
-
 /**
  * add router support.
  */
@@ -164,8 +153,6 @@ $di->set('router', function () {
 
   return $router;
 }); /* End the Router Support */
-
-
 
 
 /**

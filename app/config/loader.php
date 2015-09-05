@@ -2,7 +2,6 @@
 $loader = new \Phalcon\Loader();
 
 
-
 /**
  * We're a registering a set of directories taken from the configuration file
  */
@@ -21,13 +20,13 @@ $loader->registerDirs(
  * We're a registering a set of directories taken from the configuration file
  */
 $loader->registerNamespaces(array(
-    'Vokuro\Models' => $config->application->modelsDir,
-    'Vokuro\Controllers' => $config->application->controllersDir,
+  'Vokuro\Models'                   => $config->application->modelsDir,
+  'Vokuro\Controllers'              => $config->application->controllersDir,
   'Modules\\Companies\\Controllers' => APP_DIR . '/../modules/companies/controllers/',
-    'Vokuro\Forms' => $config->application->formsDir,
-    'Vokuro' => $config->application->libraryDir,
-    'Extend'    => $config->application->extendDir,
-    'Plugins'   => $config->application->pluginsDir,
+  'Vokuro\Forms'                    => $config->application->formsDir,
+  'Vokuro'                          => $config->application->libraryDir,
+  'Extend'                          => $config->application->extendDir,
+  'Plugins'                         => $config->application->pluginsDir,
 
 ));
 

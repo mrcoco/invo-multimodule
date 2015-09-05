@@ -1,5 +1,4 @@
 <!-- /app/views/layouts/private(!).volt -->
-
 <div class="navbar navbar-inverse">
     <div class="navbar-inner">
         <div class="container" style="width: auto;">
@@ -47,6 +46,8 @@
         </div>
     </div>
 </div>
+
+{{ flash.output() }}
 
 <div class="container">
     {{ content() }}

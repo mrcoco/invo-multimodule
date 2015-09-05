@@ -18,7 +18,6 @@ class UserControlController extends BaseController
   }
 
   public function indexAction() {
-
   }
 
   /**

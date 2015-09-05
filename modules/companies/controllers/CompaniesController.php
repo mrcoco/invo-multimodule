@@ -261,11 +261,10 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
       $this->response->redirect("companies");
     }
 
-    if (!$companies->delete()) {
+    if (!$company->delete()) {
       foreach ($company->getMessages() as $message) {
         $this->flash->error($message);
       }
-
       $this->response->redirect("companies");
     }
 

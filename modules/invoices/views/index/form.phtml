@@ -12,7 +12,7 @@ if ($this->dispatcher->getActionName() == "edit") {
   echo $this->tag->form(array('invoices/index/save', 'role' => 'form'));
 } else {
   echo "<h1>Add an Invoice</h1>";
-  echo $this->tag->form(array('invoices/index/create'));
+  echo $this->tag->form(array('invoices/create'));
 }
 ?>
 

@@ -79,6 +79,8 @@ class ProductsController extends \Vokuro\Controllers\BaseController
       if (!$form->isValid($_POST)) {
         $output['err_msg'] = '';
         foreach ($form->getMessages() as $message) {
+          echo "what is my message?";
+          var_dump($message);
           $this->flash->error("Message: " . $message);
         }
         unset($message);
@@ -178,18 +180,24 @@ class ProductsController extends \Vokuro\Controllers\BaseController
 
       if (!$form->isValid($data, $product)) {
         foreach ($form->getMessages() as $message) {
+          echo "what is my message?";
+          var_dump($message);
+          exit();
           $this->flash->error($message);
         }
-
         return $this->response->redirect('products/add');
       }
 
       if ($product->save() == false) {
         foreach ($product->getMessages() as $message) {
-          if ($message === "product_types_id is required") {
-            $message = "You have to fill the product type";
+          if ($message == "product_types_id is required") {
+            $message = "You havvve to fill the product type";
             $this->flash->error($message);
           } else {
+            /*
+             *  Other Messages can be:
+             *  - Price is required
+             **/
             $this->flash->error($message);
           }
         }
