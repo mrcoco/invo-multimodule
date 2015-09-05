@@ -8,8 +8,6 @@ class Products extends \Phalcon\Mvc\Model
 
   public $name;
 
-  public $address;
-
   /**
    * Products initializer
    */
@@ -25,9 +23,7 @@ class Products extends \Phalcon\Mvc\Model
    * @return string
    */
   public function getSource() {
-    $config = $this->_dependencyInjector->getShared('config');
-
-    return $config->database->tablePrefix . 'products';
+    return 'products';
   }// getSource
 
   /**

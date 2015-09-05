@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `mustChangePassword`, `profilesId`, `banned`, `suspended`, `active`) VALUES
-(1, 'Bob Burnquist', 'bob@phalconphp.com', '$2a$08$Lx1577KNhPa9lzFYKssadetmbhaveRtCoVaOnoXXxUIhrqlCJYWCW', 'N', 1, 'N', 'N', 'Y'),
-(2, 'Erik', 'erik@phalconphp.com', '$2a$08$f4llgFQQnhPKzpGmY1sOuuu23nYfXYM/EVOpnjjvAmbxxDxG3pbX.', 'N', 1, 'Y', 'Y', 'Y'),
-(3, 'Veronica', 'veronica@phalconphp.com', '$2a$08$NQjrh9fKdMHSdpzhMj0xcOSwJQwMfpuDMzgtRyA89ADKUbsFZ94C2', 'N', 1, 'N', 'N', 'Y'),
-(4, 'Yukimi Nagano', 'yukimi@phalconphp.com', '$2a$08$cxxpy4Jvt6Q3xGKgMWIILuf75RQDSroenvoB7L..GlXoGkVEMoSr.', 'N', 2, 'N', 'N', 'Y');
+(1, 'Bob Burnquist', 'bob@phalconphp.com', '$2a$08$dYBRmOwInMyyNnMK5Z1sbOOftzWqk2jhoyfCPuyhOBfx7UAXecFDm', 'N', 1, 'N', 'N', 'Y'),
+(2, 'Erik', 'erik@phalconphp.com', '$2a$08$dYBRmOwInMyyNnMK5Z1sbOOftzWqk2jhoyfCPuyhOBfx7UAXecFDm', 'N', 1, 'Y', 'Y', 'Y'),
+(3, 'Veronica', 'veronica@phalconphp.com', '$2a$08$dYBRmOwInMyyNnMK5Z1sbOOftzWqk2jhoyfCPuyhOBfx7UAXecFDm', 'N', 1, 'N', 'N', 'Y'),
+(4, 'Yukimi Nagano', 'yukimi@phalconphp.com', '$2a$08$dYBRmOwInMyyNnMK5Z1sbOOftzWqk2jhoyfCPuyhOBfx7UAXecFDm', 'N', 2, 'N', 'N', 'Y');

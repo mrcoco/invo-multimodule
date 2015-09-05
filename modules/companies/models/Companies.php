@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Companies\Models;
 
 class Companies extends \Phalcon\Mvc\Model

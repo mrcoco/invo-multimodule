@@ -17,6 +17,7 @@ class BaseController extends Controller
    */
   protected function initialize() {
     $this->tag->prependTitle('INVO MultiModule | ');
+    $this->view->setTemplateBefore('private');
   }
 
 }

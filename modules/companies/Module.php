@@ -3,12 +3,14 @@
 namespace Modules\Companies;
 
 use Phalcon\Loader;
-use Phalcon\Mvc\View;
-use Phalcon\DiInterface;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\ModuleDefinitionInterface;
 
-
+/*
+ *  This Module file will set up the specific namespaces for this module
+ *  It extends ModulesAbstract with itself extends a ModulesTrait (new since PHP 5.4)
+ *  The ModulesTrait will register a view Service (very important!) and hooks itself
+ *  into the dispatcher service, to handle non-existent paths (projects/index/dontknowwhere should be handled!)
+ *  Eventually it will set up specific routes for this module through a routes file
+ **/
 class Module extends \Extend\ModulesAbstract
 {
   protected $controller_namespace = 'Modules\\Companies\\Controllers';
@@ -21,27 +23,12 @@ class Module extends \Extend\ModulesAbstract
     $loader = new Loader();
     $loader->registerNamespaces(
       array(
-        'Modules\Companies\Controllers'  => __DIR__ . '/controllers/',
-        'Modules\Companies\Models' => __DIR__ . '/models/',
-        'Modules\Companies\Forms'  => __DIR__ . '/forms',
-        'Vokuro\Controllers'          => APP_DIR . '/controllers/',
+        'Modules\Companies\Controllers' => __DIR__ . '/controllers/',
+        'Modules\Companies\Models'      => __DIR__ . '/models/',
+        'Modules\Companies\Forms'       => __DIR__ . '/forms',
+        'Vokuro\Controllers'            => APP_DIR . '/controllers/',
       )
     );
     $loader->register();
   } /* registerAutoloaders */
-
-
-  /**
-   * Register specific services for the module
-   */
-
-
-
-
-
-
-
-
-
-
 }

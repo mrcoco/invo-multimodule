@@ -11,17 +11,16 @@ class IndexController extends \Vokuro\Controllers\BaseController
 {
 
   /**
-   * ProductsController
-   *
+   *  Initialize the Index Controller of the Products module
    */
   public function initialize() {
     $this->tag->setTitle('Manage your Products');
-    $this->view->setTemplateBefore('private');
     parent::initialize();
   }
 
   /**
-   *
+   *  You should never get to this action, because the module has its own controller
+   *  This action is just here to catch wrong routes.
    */
   public function indexAction() {
     // generate some form for delete action

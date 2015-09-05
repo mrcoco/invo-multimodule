@@ -27,66 +27,65 @@ trait ModulesTrait
    */
   public function registerServices(\Phalcon\DiInterface $di = null) // <- here it is
   {
-    // get module caller class to retrieve data-----------
-    $ModuleType = '';
+    /*
+     *  Let's set up some variables, we can use them to show which module type we are in. Core or Module?
+     *  get module caller class to retrieve data
+     **/
     $module_caller_name = get_called_class();
-
-    //echo $module_caller_name."<br />";
 
     $module_caller = new $module_caller_name;
     if (property_exists($module_caller, 'controller_namespace')) {
-      //echo "a ".$module_caller->controller_namespace."<br />";
       $default_namespace = $module_caller->controller_namespace;
     } else {
-      //echo "b ".$this->default_controller_namespace."<br />";
       $default_namespace = $this->default_controller_namespace;
     }
 
+    /*
+     *  Unfortunately, on Windows we need to replace the backslashes with normal slashes
+     **/
     if (property_exists($module_caller, 'module_full_path')) {
       $module_full_path = str_replace('\\', '/', $module_caller->module_full_path);
     } else {
       $module_full_path = str_replace('\\', '/', $this->default_module_full_path);
     }
 
-    //echo $module_full_path . "<br />";
-    if (strstr($module_full_path, 'modules')) {
-      $ModuleType = 'module';
-    } else {
-      $ModuleType = 'core';
-    }
-
-    //unset($module_caller_name);
-    // end get module caller class ---------------------------
-
-    //echo APP_DIR . '/config/config.php'."<br />";
+    unset($module_caller_name);
 
     $config = include APP_DIR . '/config/config.php';
-
-    // Registering the view component
-    $di->set('view', function () use ($config, $module_full_path, $ModuleType) {
+    /*
+     *  Registering the view component
+     *  Figure out which ModuleType we are in and then set up the Layout path according to that viewType
+     *  Modules are in a totally different directory (and namespace) than the core modules.
+     **/
+    $di->set('view', function () use ($config, $module_full_path) {
+      $ModuleType = '';
       $view = new View();
 
       /*
        *  When needed : layouts dir. Problem is that it overrides my index, which i don't want
        **/
-      //echo "my moduletype is ".$ModuleType."<br />";
-
-      if ($ModuleType == "module") {
+      if (strstr($module_full_path, 'modules')) {
+        $ModuleType = 'module';
         $view->setLayoutsDir("../../../app/views/layouts/");
       } else {
-        //echo "why is my ".$module_full_path." moduletype core?<br />";
-        //$ModuleType = 'core';
+        $ModuleType = 'core';
         $view->setLayoutsDir("layouts/");
       }
 
       $view->setViewsDir($module_full_path . '/views/');
 
       $this->default_module_full_path = str_replace('\\', '/', $this->default_module_full_path);
+      /*
+       *  If everything is just wrong, resort back to the main main index view.
+       **/
       if ($module_full_path != $this->default_module_full_path) {
-        //echo "what ".$module_full_path." is going ".$this->default_module_full_path." on?<br />";
         $view->setMainView('../../../app/views/index');
       }
 
+      /*
+       *  Register the Volt template engine in the view. Also register the .php and .phtml extensions.
+       *  Try to use as much volt as you can
+       **/
       $view->registerEngines(array(
         '.volt'  => function ($view, $di) use ($config) {
 
@@ -113,7 +112,11 @@ trait ModulesTrait
     }); /* End View Service */
 
 
-    // Registering a dispatcher
+    //
+    /*
+     *  Registering a dispatcher
+     *  This should also take care of the non-found views and some exceptions
+     **/
     $di->set('dispatcher', function () use ($di, $default_namespace) {
 
       $eventsManager = $di->getShared('eventsManager');

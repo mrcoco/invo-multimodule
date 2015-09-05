@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Modules\Invoices\Models;
 
 class Invoices extends \Phalcon\Mvc\Model
