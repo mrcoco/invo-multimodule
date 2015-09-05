@@ -121,7 +121,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
     if (!$product) {
       $this->flash->error("Product was not found");
 
-      return $this->response->redirect('products/index');
+      return $this->response->redirect('products');
     }
     // Add the form to the View
     $form = new \Modules\Products\Forms\ProductsForm($product, ['edit' => true, 'id' => $id]);
@@ -222,40 +222,72 @@ class ProductsController extends \Vokuro\Controllers\BaseController
   public
   function saveAction() {
     $dispatcher = new Dispatcher;
+    /*
+     *  If there is no posting of a form, redirect to the products index (browse action)
+     *  It needs to 'forward', so the wrong url does not stay in the browser's address bar
+     *  It needs to 'forward', so the wrong url does not stay in the browser's address bar
+     **/
     if (!$this->request->isPost()) {
+
       $dispatcher->forward(array(
         'namespace'  => '\\Modules\\Products\\Controllers',
         'module'     => 'products',
-        'controller' => 'index',
-        'action'     => 'index'
+        'controller' => 'products',
+        'action'     => 'browse'
       ));
-
       return false;
+
     } else {
+      /*
+       *  Form was posted, let's attach it to the form, the product and let's see if it is a valid posting
+       *  Otherwise return back to the form and show an error message, why the form is not valid
+       **/
       $form = new \Modules\Products\Forms\ProductsForm(null, array());
       $id = $this->request->getPost("id", "int");
       $product = \Modules\Products\Models\Products::findFirstById($id);
+
+      /*
+       *  No product found? Interesting. Do some logging for the administrators!
+       **/
       if (!$product) {
         $this->flash->error("Product does not exist");
-
-        return $this->response->redirect('products/index');
+        return $this->response->redirect('products');
       }
+
       $data = $this->request->getPost();
 
       $form->bind($data, $product);
-      if (!$form->isValid($data, $product)) {
-        foreach ($form->getMessages() as $message) {
-          $this->flash->error($message);
-        }
 
+      /*
+       *  Is the form valid?
+       **/
+      if (!$form->isValid($data, $product)) {
+        /*
+         *  The form is not valid, show error message and return to the edit form!
+         *  Keep the values in the edit form, so they can be corrected
+         **/
+        foreach ($form->getMessages() as $message) {
+          if ($message == "product_types_id is required") {
+            $message = "You havvve to fill the product type";
+            $this->flash->error($message);
+          } else {
+            /*
+             *  Other Messages can be:
+             *  - Price is required
+             **/
+            $this->flash->error($message);
+          }
+        }
         return $this->response->redirect('products/edit/' . $id);
       }
 
+      /*
+       *  Did the product get saved? Why not? Show error messages
+       **/
       if ($product->save() == false) {
         foreach ($product->getMessages() as $message) {
           $this->flash->error($message);
         }
-
         $this->response->redirect('products/edit/' . $id);
       }
 
@@ -263,7 +295,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
 
       $this->flash->success("Product was Upppdated successfully");
 
-      return $this->response->redirect('/products/index');
+      return $this->response->redirect('/products');
     }
   }  /* saveAction */
 
@@ -272,14 +304,13 @@ class ProductsController extends \Vokuro\Controllers\BaseController
    *
    * @param string $id
    */
-  public
-  function deleteAction($id) {
+  public function deleteAction($id) {
 
     $products = \Modules\Products\Models\Products::findFirstById($id);
     if (!$products) {
       $this->flash->error("Product was not found");
 
-      $this->response->redirect("products/index");
+      $this->response->redirect("products");
     }
 
     if (!$products->delete()) {
@@ -287,19 +318,18 @@ class ProductsController extends \Vokuro\Controllers\BaseController
         $this->flash->error($message);
       }
 
-      $this->response->redirect("products/index");
+      $this->response->redirect("products");
     }
 
     $this->flash->success("Product was deleted");
 
-    $this->response->redirect("products/index");
+    $this->response->redirect("products");
   }  /* deleteAction */
 
   /**
    *
    */
-  public
-  function multipleAction() {
+  public function multipleAction() {
     $ids = $this->request->getPost('id');
     $connection = $this->_dependencyInjector->getShared('db');
     $config = $this->_dependencyInjector->getShared('config');
