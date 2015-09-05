@@ -9,6 +9,9 @@
     </li>
 </ul>
 
+echo "hello crude world";;
+
+
 {% for profile in page.items %}
 {% if loop.first %}
 <table class="table table-bordered table-striped" align="center">

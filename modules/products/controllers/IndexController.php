@@ -1,0 +1,307 @@
+<?php
+
+namespace Modules\Products\Controllers;
+
+use Phalcon\Mvc\Dispatcher;
+use Modules\Products\Forms as ProductsForm;
+use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Paginator\Adapter\Model as Paginator;
+
+class IndexController extends \Vokuro\Controllers\
+{
+
+  /**
+   * ProductsController
+   *
+   */
+  public function initialize() {
+    $this->tag->setTitle('Manage your Products');
+    parent::initialize();
+  }
+
+  /**
+   *
+   */
+  public function indexAction() {
+    // generate some form for delete action
+    $form = new \Phalcon\Forms\Form();
+    $csrf = new \Phalcon\Forms\Element\Hidden('csrf', ['value' => $this->security->getToken()]);
+    $csrf->addValidator(
+      new \Phalcon\Validation\Validator\Identical(
+        array(
+          'value'   => $this->security->getSessionToken(),
+          'message' => 'CSRF validation failed'
+        )
+      )
+    );
+    $form->add($csrf);
+    $this->view->setVar('form', $form);
+    unset($form);
+
+    $current_page = (int)$this->request->get('page', null, 1);
+    $products = \Modules\Products\Models\Products::query()
+      ->order('id DESC')
+      ->execute();
+    $paginator = new \Phalcon\Paginator\Adapter\Model(
+      array(
+        'data'  => $products,
+        'limit' => 10,
+        'page'  => $current_page
+      )
+    );
+    $this->view->setVar('page', $paginator->getPaginate());
+    unset($current_page, $products, $paginator);
+  }  /* indexAction */
+
+  /**
+   * Shows the form to create a new product
+   */
+  public function newAction() {
+    $this->view->form = new ProductsForm(null, array());
+  } /* newAction*/
+
+  /**
+   *
+   */
+  public function addAction() {
+    $output = [];
+
+    // add form.
+    $form = new \Modules\Products\Forms\ProductsForm(null, array());
+    $this->view->setVar('form', $form);
+
+    if ($this->request->isPost()) {
+      if (!$form->isValid($_POST)) {
+        $output['err_msg'] = '';
+        foreach ($form->getMessages() as $message) {
+          $this->flash->error("Message: " . $message);
+        }
+        unset($message);
+      } else {
+        // passed validated post
+        $data['name'] = htmlspecialchars($this->request->getPost('name', array('trim')));
+        $data['address'] = htmlspecialchars($this->request->getPost('address', 'trim'));
+        $products = new \Modules\Products\Models\Products();
+        $products_save = $products->save($data);
+        if ($products_save === false) {
+          $this->flash->error("Unable to insert");
+          foreach ($products->getMessages() as $message) {
+            $this->flash->warning("Message: " . $message);
+          }
+          unset($message);
+        } else {
+          $this->flash->success("Saved success! The Id is: " . $products->id);
+          $this->response->redirect('products');
+        }
+        unset($data, $products, $products_save);
+      }
+    }
+
+    $this->view->setVars($output);
+    unset($form, $output);
+    $this->view->pick('index/form');
+  } /* addAction */
+
+  /**
+   * Edits a product based on its id
+   *
+   * @param string $id
+   */
+  public function editAction($id = '') {
+    $output = [];
+
+    $product = \Modules\Products\Models\Products::findFirstById($id);
+    if (!$product) {
+      $this->flash->error("Product was not found");
+
+      return $this->response->redirect('products/index');
+    }
+    // Add the form to the View
+    $form = new \Modules\Products\Forms\ProductsForm($product, ['edit' => true, 'id' => $id]);
+    $this->view->setVar('form', $form);
+
+    $product = new \Modules\Products\Models\Products();
+    $data = $this->request->getPost();
+
+    if (!$this->request->isPost()) {
+    } else {
+      if (!$form->isValid($data, $product)) {
+        foreach ($form->getMessages() as $message) {
+          $this->flash->warning("Message: " . $message);
+        }
+        unset($message);
+      } else {
+        // passed validated post
+        $form->bind($this->request->getPost(), $product);
+        $products_save = $product->save();
+        if ($product === false) {
+          $this->flash->error("Unable to update:");
+          foreach ($product->getMessages() as $message) {
+            $this->flash->warning("Message " . $message);
+          }
+          unset($message);
+        } else {
+          $this->flash->success("Saved success! The id is " . $id);
+          $this->response->redirect('products');
+        }
+        unset($data, $products, $products_save);
+      }
+    }
+    unset($form, $output);
+    $this->view->pick('index/form');
+  } /* editAction */
+
+  /**
+   * Creates a new Product
+   */
+  public function createAction() {
+    $dispatcher = new Dispatcher;
+    if (!$this->request->isPost()) {
+      $dispatcher->forward(array(
+        'namespace'  => '\\Modules\\Products\\Controllers',
+        'module'     => 'products',
+        'controller' => 'index',
+        'action'     => 'index'
+      ));
+
+      return false;
+    } else {
+      $form = new \Modules\Products\Forms\ProductsForm(null, array());
+      $product = new \Modules\Products\Models\Products();
+
+      $data = $this->request->getPost();
+
+      if (!$form->isValid($data, $product)) {
+        foreach ($form->getMessages() as $message) {
+          $this->flash->error($message);
+        }
+
+        return $this->response->redirect('products/index/add');
+      }
+
+      if ($product->save() == false) {
+        foreach ($product->getMessages() as $message) {
+          if ($message === "product_types_id is required") {
+            $message = "You have to fill the product type";
+            $this->flash->error($message);
+          } else {
+            $this->flash->error($message);
+          }
+        }
+        $this->response->redirect('products/index/add');
+
+        return false;
+      }
+
+      $form->clear();
+
+      $this->flash->success("Product was created successfully");
+
+      return $this->response->redirect('/products/index');
+    }
+  }  /* createAction */
+
+  /**
+   * Saves The product from the edit form to the DataBase
+   *
+   * @param string $id
+   */
+  public
+  function saveAction() {
+    $dispatcher = new Dispatcher;
+    if (!$this->request->isPost()) {
+      $dispatcher->forward(array(
+        'namespace'  => '\\Modules\\Products\\Controllers',
+        'module'     => 'products',
+        'controller' => 'index',
+        'action'     => 'index'
+      ));
+
+      return false;
+    } else {
+      $form = new \Modules\Products\Forms\ProductsForm(null, array());
+      $id = $this->request->getPost("id", "int");
+      $product = \Modules\Products\Models\Products::findFirstById($id);
+      if (!$product) {
+        $this->flash->error("Product does not exist");
+
+        return $this->response->redirect('products/index');
+      }
+      $data = $this->request->getPost();
+
+      $form->bind($data, $product);
+      if (!$form->isValid($data, $product)) {
+        foreach ($form->getMessages() as $message) {
+          $this->flash->error($message);
+        }
+
+        return $this->response->redirect('products/edit/' . $id);
+      }
+
+      if ($product->save() == false) {
+        foreach ($product->getMessages() as $message) {
+          $this->flash->error($message);
+        }
+
+        $this->response->redirect('products/index/edit/' . $id);
+      }
+
+      $form->clear();
+
+      $this->flash->success("Product was Upppdated successfully");
+
+      return $this->response->redirect('/products/index');
+    }
+  }  /* saveAction */
+
+  /**
+   * Deletes a product
+   *
+   * @param string $id
+   */
+  public
+  function deleteAction($id) {
+
+    $products = \Modules\Products\Models\Products::findFirstById($id);
+    if (!$products) {
+      $this->flash->error("Product was not found");
+
+      $this->response->redirect("products/index");
+    }
+
+    if (!$products->delete()) {
+      foreach ($products->getMessages() as $message) {
+        $this->flash->error($message);
+      }
+
+      $this->response->redirect("products/index");
+    }
+
+    $this->flash->success("Product was deleted");
+
+    $this->response->redirect("products/index");
+  }  /* deleteAction */
+
+  /**
+   *
+   */
+  public
+  function multipleAction() {
+    $ids = $this->request->getPost('id');
+    $connection = $this->_dependencyInjector->getShared('db');
+    $config = $this->_dependencyInjector->getShared('config');
+
+    if ($this->request->isPost()) {
+      if (is_array($ids)) {
+        foreach ($ids as $id) {
+          // to use database abstraction layer, you have to manually add table prefix.
+          $connection->delete($config->database->tablePrefix . 'products', 'id = ' . $id);
+        }
+      }
+    }
+
+    unset($config, $connection, $id, $ids);
+
+    $this->response->redirect('products');
+  } /* multipleAction */
+}

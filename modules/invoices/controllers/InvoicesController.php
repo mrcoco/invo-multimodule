@@ -1,35 +1,30 @@
 <?php
-
-namespace Modules\Companies\Controllers;
-//namespace Vokuro\Controllers;
+namespace Modules\Invoices\Controllers;
 
 use Phalcon\Mvc\Dispatcher;
-use Modules\Companies\Forms as CompaniesForm;
+use Modules\Invoices\Forms as InvoicesForm;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
 use \Phalcon\Mvc\Controller;
 
 
-class CompaniesController extends Controller
+class InvoicesController extends \Vokuro\Controllers\BaseController
 {
 
   /**
    *
    */
   public function initialize() {
-    $this->tag->setTitle('Manage your Companies');
+    $this->tag->setTitle('Manage your Invoices');
+    $this->view->setTemplateBefore('private');
     //parent::initialize();
   }
-
-
-
-
 
   /**
    *
    */
-  public function indexAction() {
+  public function browseAction() {
     // generate some form for delete action
     $form = new \Phalcon\Forms\Form();
     $csrf = new \Phalcon\Forms\Element\Hidden('csrf', ['value' => $this->security->getToken()]);
@@ -48,30 +43,25 @@ class CompaniesController extends Controller
 
 
     $current_page = (int)$this->request->get('page', null, 1);
-    $companies = \Modules\Companies\Models\Companies::query()
+    $invoices = \Modules\Invoices\Models\Invoices::query()
       ->order('id DESC')
       ->execute();
     $paginator = new \Phalcon\Paginator\Adapter\Model(
       array(
-        'data'  => $companies,
+        'data'  => $invoices,
         'limit' => 10,
         'page'  => $current_page
       )
     );
     $this->view->setVar('page', $paginator->getPaginate());
-    unset($current_page, $companies, $paginator);
-  }	/* indexAction */
-
-
-
-
-
+    unset($current_page, $invoices, $paginator);
+  }	/* browseAction */
 
   /**
-   * Shows the form to create a new company
+   * Shows the form to create a new invoice
    */
   public function newAction() {
-    $this->view->form = new \Modules\Companies\Forms\CompaniesForm(null, array());
+    $this->view->form = new \Modules\Invoices\Forms\InvoicesForm(null, array());
   }	/* newAction */
 
   /**
@@ -81,7 +71,7 @@ class CompaniesController extends Controller
     $output = [];
 
     // add form.
-    $form = new \Modules\Companies\Forms\CompaniesForm(null, array());
+    $form = new \Modules\Invoices\Forms\InvoicesForm(null, array());
     $this->view->setVar('form', $form);
 
     if ($this->request->isPost()) {
@@ -95,19 +85,19 @@ class CompaniesController extends Controller
         // passed validated post
         $data['name'] = htmlspecialchars($this->request->getPost('name', array('trim')));
         $data['address'] = htmlspecialchars($this->request->getPost('address', 'trim'));
-        $companies = new \Modules\Companies\Models\Companies();
-        $companies_save = $companies->save($data);
-        if ($companies_save === false) {
+        $invoices = new \Modules\Invoices\Models\Invoices();
+        $invoices_save = $invoices->save($data);
+        if ($invoices_save === false) {
           $this->flash->error("Unable to insert");
-          foreach ($companies->getMessages() as $message) {
+          foreach ($invoices->getMessages() as $message) {
             $this->flash->warning("Message: " . $message);
           }
           unset($message);
         } else {
-          $this->flash->success("Saved success! The Id is: " . $companies->id);
-          $this->response->redirect('companies');
+          $this->flash->success("Saved success! The Id is: " . $invoices->id);
+          $this->response->redirect('invoices');
         }
-        unset($data, $companies, $companies_save);
+        unset($data, $invoices, $invoices_save);
       }
     }
     $this->view->setVars($output);
@@ -121,10 +111,10 @@ class CompaniesController extends Controller
   public function editAction($id = '') {
     $output = [];
 
-    $companies = \Modules\Companies\Models\Companies::findFirstById($id);
+    $invoices = \Modules\Invoices\Models\Invoices::findFirstById($id);
 
     // Add the form to the View
-    $form = new \Modules\Companies\Forms\CompaniesForm($companies, ['edit' => true, 'id' => $id]);
+    $form = new \Modules\Invoices\Forms\InvoicesForm($invoices, ['edit' => true, 'id' => $id]);
     $this->view->setVar('form', $form);
 
     if ($this->request->isPost()) {
@@ -136,19 +126,19 @@ class CompaniesController extends Controller
         unset($message);
       } else {
         // passed validated post
-        $form->bind($this->request->getPost(), $companies);
-        $companies_save = $companies->save();
-        if ($companies === false) {
+        $form->bind($this->request->getPost(), $invoices);
+        $invoices_save = $invoices->save();
+        if ($invoices === false) {
           $this->flash->error("Unable to update:");
-          foreach ($companies->getMessages() as $message) {
+          foreach ($invoices->getMessages() as $message) {
             $this->flash->warning("Message " . $message);
           }
           unset($message);
         } else {
           $this->flash->success("Saved success! The id is " . $id);
-          $this->response->redirect('companies');
+          $this->response->redirect('invoices');
         }
-        unset($data, $mycompanies, $companies_save);
+        unset($data, $myinvoices, $invoices_save);
       }
     }
 
@@ -158,51 +148,51 @@ class CompaniesController extends Controller
   } /* editAction */
 
   /**
-   * Creates a new company
+   * Creates a new invoice
    */
   public function createAction() {
     $dispatcher = new Dispatcher;
     if (!$this->request->isPost()) {
       $dispatcher->forward(array(
-        'namespace'  => '\\Modules\\Companies\\Controllers',
-        'module'     => 'companies',
+        'namespace'  => '\\Modules\\Invoices\\Controllers',
+        'module'     => 'invoices',
         'controller' => 'index',
         'action'     => 'index'
       ));
 
       return false;
     } else {
-      $form = new \Modules\Companies\Forms\CompaniesForm(null, array());
-      $company = new \Modules\Companies\Models\Companies();
+      $form = new \Modules\Invoices\Forms\InvoicesForm(null, array());
+      $invoice = new \Modules\Invoices\Models\Invoices();
 
       $data = $this->request->getPost();
 
-      if (!$form->isValid($data, $company)) {
+      if (!$form->isValid($data, $invoice)) {
         foreach ($form->getMessages() as $message) {
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/index/add');
+        return $this->response->redirect('invoices/index/add');
       }
 
-      if ($company->save() == false) {
-        foreach ($company->getMessages() as $message) {
+      if ($invoice->save() == false) {
+        foreach ($invoice->getMessages() as $message) {
           $this->flash->error($message);
         }
 
-        $this->response->redirect('companies/index/add');
+        $this->response->redirect('invoices/index/add');
       }
 
       $form->clear();
 
       $this->flash->success("Company was created successfully");
 
-      return $this->response->redirect('/companies/index');
+      return $this->response->redirect('/invoices/index');
     }
   } /* createAction */
 
   /**
-   * Saves The company from the edit form to the DataBase
+   * Saves The invoice from the edit form to the DataBase
    *
    * @param string $id
    */
@@ -210,75 +200,74 @@ class CompaniesController extends Controller
     $dispatcher = new Dispatcher;
     if (!$this->request->isPost()) {
       $dispatcher->forward(array(
-        'namespace'  => '\\Modules\\Companies\\Controllers',
-        'module'     => 'companies',
+        'namespace'  => '\\Modules\\Invoices\\Controllers',
+        'module'     => 'invoices',
         'controller' => 'index',
         'action'     => 'index'
       ));
 
       return false;
     } else {
-      $form = new \Modules\Companies\Forms\CompaniesForm(null, array());
-      //$form = new CompaniesForm;
+      $form = new \Modules\Invoices\Forms\InvoicesForm(null, array());
+      //$form = new InvoicesForm;
       $id = $this->request->getPost("id", "int");
-      $company = \Modules\Companies\Models\Companies::findFirstById($id);
-      //$company = new \Modules\Companies\Models\Companies();
+      $invoice = \Modules\Invoices\Models\Invoices::findFirstById($id);
+      //$invoice = new \Modules\Invoices\Models\Invoices();
 
       $data = $this->request->getPost();
 
-      $form->bind($data, $company);
+      $form->bind($data, $invoice);
 
       //$form->setData($request->getPost());
 
-      if (!$form->isValid($data, $company)) {
+      if (!$form->isValid($data, $invoice)) {
         foreach ($form->getMessages() as $message) {
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/add');
+        return $this->response->redirect('invoices/new');
       }
 
-      if ($company->save() == false) {
-        foreach ($company->getMessages() as $message) {
+      if ($invoice->save() == false) {
+        foreach ($invoice->getMessages() as $message) {
           $this->flash->error($message);
         }
 
-        $this->response->redirect('companies/index/add');
+        $this->response->redirect('invoices/index/new');
       }
 
       $form->clear();
 
-      $this->flash->success("Company was Savvvved successfully");
+      $this->flash->success("Invoice was Saved successfully");
 
-      return $this->response->redirect('/companies/index');
+      return $this->response->redirect('/invoices');
     }
   }	/* saveAction */
 
   /**
-   * Deletes a company
+   * Deletes an invoice
    *
    * @param string $id
    */
   public function deleteAction($id) {
 
-    $companies = \Modules\Companies\Models\Companies::findFirstById($id);
-    if (!$companies) {
-      $this->flash->error("Company was not found");
-
-      $this->response->redirect("companies/index");
+    $invoice = \Modules\Invoices\Models\Invoices::findFirstById($id);
+    if (!$invoice) {
+      $this->flash->error("Invoice was not found");
+      $this->response->redirect("invoices");
     }
 
-    if (!$companies->delete()) {
-      foreach ($companies->getMessages() as $message) {
+    if (!$invoice->delete()) {
+      foreach ($invoice->getMessages() as $message) {
         $this->flash->error($message);
       }
 
-      $this->response->redirect("companies/index");
+      $this->response->redirect("invoices");
     }
 
-    $this->flash->success("Company was deleted");
+    $this->flash->success("Invoice was deleted");
 
-    $this->response->redirect("companies/index");
+    $this->response->redirect("invoices");
   }	/* deleteAction */
 
   /**
@@ -293,11 +282,11 @@ class CompaniesController extends Controller
       if (is_array($ids)) {
         foreach ($ids as $id) {
           // to use database abstraction layer, you have to manually add table prefix.
-          $connection->delete($config->database->tablePrefix . 'companies', 'id = ' . $id);
+          $connection->delete($config->database->tablePrefix . 'invoices', 'id = ' . $id);
         }
       }
     }
     unset($config, $connection, $id, $ids);
-    $this->response->redirect('companies');
+    $this->response->redirect('invoices');
   } /* multipleAction */
 }

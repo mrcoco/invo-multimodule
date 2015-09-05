@@ -1,5 +1,0 @@
-<?php
-
-$messages = [
-  'companies'      => 'Companies',
-];

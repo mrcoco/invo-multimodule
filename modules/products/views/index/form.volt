@@ -1,4 +1,4 @@
-<!-- /modules/companies/views/index/form.phtml -->
+<!-- /modules/products/views/index/form.phtml -->
 
 <div class="form-result-placeholder">
   <?php if (isset($err_msg)) {
@@ -6,26 +6,24 @@
   } ?>
 </div>
 
-
 <?php
 if ($this->dispatcher->getActionName() == "edit") {
-  echo "<h1>Edit a Company: (CompanyName)</h1>";
-  echo $this->tag->form(array('companies/index/save', 'role' => 'form'));
+  echo "<h1>Edit a Product: (ProductName)</h1>";
+  echo $this->tag->form(array('products/index/save', 'role' => 'form'));
 } else {
-  echo "<h1>Add a Company</h1>";
-  echo $this->tag->form(array('companies/index/create'));
+  echo "<h1>Add a Product</h1>";
+  echo $this->tag->form(array('products/index/create'));
 }
 ?>
 
 <ul class="pager">
   <li class="previous pull-left">
-    <?php echo $this->tag->linkTo(array('companies', '&larr; Go Back')); ?>
+    <?php echo $this->tag->linkTo(array('products', '&larr; Go Back')); ?>
   </li>
   <li class="pull-right">
     <?php echo $this->tag->submitButton(array('Save', 'class' => 'btn btn-success')); ?>
   </li>
 </ul>
-
 <fieldset>
 
   <?php foreach ($form as $element) { ?>
@@ -39,5 +37,6 @@ if ($this->dispatcher->getActionName() == "edit") {
   <?php } ?>
 
 </fieldset>
+
 
 <?php echo $this->tag->endForm(); ?> 

@@ -28,6 +28,7 @@ trait ModulesTrait
   public function registerServices(\Phalcon\DiInterface $di = null) // <- here it is
   {
     // get module caller class to retrieve data-----------
+    $ModuleType = '';
     $module_caller_name = get_called_class();
 
     //echo $module_caller_name."<br />";
@@ -46,28 +47,37 @@ trait ModulesTrait
     } else {
       $module_full_path = str_replace('\\', '/', $this->default_module_full_path);
     }
-    //echo $module_full_path."<br />";
 
-    unset($module_caller_name);
+    //echo $module_full_path . "<br />";
+    if (strstr($module_full_path, 'modules')) {
+      $ModuleType = 'module';
+    } else {
+      $ModuleType = 'core';
+    }
+
+    //unset($module_caller_name);
     // end get module caller class ---------------------------
 
     //echo APP_DIR . '/config/config.php'."<br />";
 
     $config = include APP_DIR . '/config/config.php';
 
-
-
-
-
-
     // Registering the view component
-    $di->set('view', function () use ($config, $module_full_path) {
+    $di->set('view', function () use ($config, $module_full_path, $ModuleType) {
       $view = new View();
 
       /*
        *  When needed : layouts dir. Problem is that it overrides my index, which i don't want
        **/
-      $view->setLayoutsDir("../../../app/views/layouts/");
+      //echo "my moduletype is ".$ModuleType."<br />";
+
+      if ($ModuleType == "modules") {
+        $view->setLayoutsDir("../../../app/views/layouts/");
+      } else {
+        //$ModuleType = 'core';
+        $view->setLayoutsDir("layouts/");
+      }
+
       $view->setViewsDir($module_full_path . '/views/');
 
       $this->default_module_full_path = str_replace('\\', '/', $this->default_module_full_path);

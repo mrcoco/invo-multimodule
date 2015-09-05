@@ -2,8 +2,6 @@
 
 namespace Modules\Companies\Controllers;
 
-//namespace Vokuro\Controllers;
-
 use Phalcon\Mvc\Dispatcher;
 use Modules\Companies\Forms as CompaniesForm;
 use Phalcon\Mvc\Model\Criteria;
@@ -12,7 +10,7 @@ use Phalcon\Paginator\Adapter\Model as Paginator;
 use \Phalcon\Mvc\Controller;
 
 
-class CompaniesController extends Controller
+class CompaniesController extends \Vokuro\Controllers\BaseController
 {
 
   /**
@@ -20,6 +18,7 @@ class CompaniesController extends Controller
    */
   public function initialize() {
     $this->tag->setTitle('Manage your Companies');
+    $this->view->setTemplateBefore('private');
     //parent::initialize();
   }
 
@@ -27,8 +26,6 @@ class CompaniesController extends Controller
    *
    */
   public function browseAction() {
-
-    $this->view->setTemplateBefore('private');
     // generate some form for delete action
     $form = new \Phalcon\Forms\Form();
     $csrf = new \Phalcon\Forms\Element\Hidden('csrf', ['value' => $this->security->getToken()]);
@@ -60,9 +57,7 @@ class CompaniesController extends Controller
     $this->view->setVar('page', $paginator->getPaginate());
     unset($current_page, $companies, $paginator);
 
-
-  }  /* indexAction */
-
+  }	/* browseAction */
 
   /**
    * Shows the form to create a new company
@@ -232,7 +227,7 @@ class CompaniesController extends Controller
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/add');
+        return $this->response->redirect('companies/new');
       }
 
       if ($company->save() == false) {
@@ -240,14 +235,14 @@ class CompaniesController extends Controller
           $this->flash->error($message);
         }
 
-        $this->response->redirect('companies/index/add');
+        $this->response->redirect('companies/index/new');
       }
 
       $form->clear();
 
       $this->flash->success("Company was Savvvved successfully");
 
-      return $this->response->redirect('/companies/index');
+      return $this->response->redirect('/companies');
     }
   }  /* saveAction */
 
@@ -258,24 +253,23 @@ class CompaniesController extends Controller
    */
   public function deleteAction($id) {
 
-    $companies = \Modules\Companies\Models\Companies::findFirstById($id);
-    if (!$companies) {
+    $company = \Modules\Companies\Models\Companies::findFirstById($id);
+    if (!$company) {
       $this->flash->error("Company was not found");
-
-      $this->response->redirect("companies/index");
+      $this->response->redirect("companies");
     }
 
     if (!$companies->delete()) {
-      foreach ($companies->getMessages() as $message) {
+      foreach ($company->getMessages() as $message) {
         $this->flash->error($message);
       }
 
-      $this->response->redirect("companies/index");
+      $this->response->redirect("companies");
     }
 
     $this->flash->success("Company was deleted");
 
-    $this->response->redirect("companies/index");
+    $this->response->redirect("companies");
   }  /* deleteAction */
 
   /**

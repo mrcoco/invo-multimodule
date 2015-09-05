@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Companies\Forms;
+namespace Modules\Invoices\Forms;
 
 use Phalcon\Forms\Form,
   Phalcon\Forms\Element\Text,
@@ -10,7 +10,7 @@ use Phalcon\Forms\Form,
   Phalcon\Validation\Validator\Email,
   Phalcon\Validation\Validator\Identical;
 
-class CompaniesForm extends Form
+class InvoicesForm extends Form
 {
 
   /**
@@ -20,7 +20,7 @@ class CompaniesForm extends Form
   public function initialize($entity = null, array $options = []) {
 
     // csrf
-    /*
+/*
     $csrf = new Hidden('csrf');
     $csrf->addValidator(
       new Identical(
@@ -32,10 +32,10 @@ class CompaniesForm extends Form
     );
     $this->add($csrf);
     unset($csrf);
-    */
+*/
 
     // id
-    // We don't need to add the ID when we are Adding a new Company, only when we are editing a new Company
+    // We don't need to add the ID when we are Adding a new Invoice, only when we are editing a new Company
     if (isset($options['edit'])) {
       // Make the ID hidden, users don't need to know that number
       $this->add(new Hidden("id"));
@@ -58,44 +58,12 @@ class CompaniesForm extends Form
     $this->add($name);
     unset($name);
 
-    $address = new Text("address");
-    $address->setLabel("address");
-    $address->setLabel("address");
-    $address->setFilters(array('striptags', 'string'));
-    $address->addValidators(
-      [
-        new PresenceOf(array(
-          'message' => 'Address is required'
-        )),
-        new StringLength(
-          ['min' => 2]
-        )
-      ]
-    );
-    $this->add($address);
-    unset($address);
+/*
+More invoice fields and their types!
+*/
 
-    $telephone = new Text("telephone");
-    $telephone->setLabel("Telephone");
-    $telephone->setFilters(array('striptags', 'string'));
-    $telephone->addValidators(array(
-      new PresenceOf(array(
-        'message' => 'Telephone is required'
-      ))
-    ));
-    $this->add($telephone);
-    unset($telephone);
-
-    $city = new Text("city");
-    $city->setLabel("city");
-    $city->setFilters(array('striptags', 'string'));
-    $city->addValidators(array(
-      new PresenceOf(array(
-        'message' => 'City is required'
-      ))
-    ));
-    $this->add($city);
-    unset($city);
 
   } /* initialize */
+
+
 }

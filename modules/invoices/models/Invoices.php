@@ -1,34 +1,15 @@
 <?php
 
 
-namespace Modules\Companies\Models;
+namespace Modules\Invoices\Models;
 
-class Companies extends \Phalcon\Mvc\Model
+class Invoices extends \Phalcon\Mvc\Model
 {
-  /**
-   * @var integer
-   */
   public $id;
 
-  /**
-   * @var string
-   */
   public $name;
 
-  /**
-   * @var string
-   */
-  public $telephone;
-
-  /**
-   * @var string
-   */
   public $address;
-
-  /**
-   * @var string
-   */
-  public $city;
 
   /**
    *
@@ -41,7 +22,7 @@ class Companies extends \Phalcon\Mvc\Model
    * @return string
    */
   public function getSource() {
-    return 'companies';
+    return 'invoices';
   }// getSource
 
 }

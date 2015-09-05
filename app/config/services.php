@@ -132,14 +132,13 @@ $di->set('crypt', function () use ($config) {
 /**
  * Dispatcher use a default namespace
  */
-
+/*
 $di->set('dispatcher', function () {
   $dispatcher = new Dispatcher();
   $dispatcher->setDefaultNamespace('Vokuro\Controllers');
-
   return $dispatcher;
 });
-
+*/
 
 
 
