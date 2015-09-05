@@ -15,8 +15,12 @@
 
 <h2>Edit products</h2>
 
-<fieldset>
+{# note: this is a comment
+  {% set price = 100; %}
+    {% set fruits = ['Apple', 'Banana', 'Orange'] %}
+#}
 
+<fieldset>
     {% for element in form %}
         {% if is_a(element, 'Phalcon\Forms\Element\Hidden') %}
             {{ element }}

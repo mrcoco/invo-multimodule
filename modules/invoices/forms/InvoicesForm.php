@@ -4,11 +4,15 @@ namespace Modules\Invoices\Forms;
 
 use Phalcon\Forms\Form,
   Phalcon\Forms\Element\Text,
+  Phalcon\Forms\Element\Numeric,
+  Phalcon\Forms\Element\Date,
   Phalcon\Forms\Element\Hidden,
   Phalcon\Validation\Validator\PresenceOf,
   Phalcon\Validation\Validator\StringLength,
   Phalcon\Validation\Validator\Email,
   Phalcon\Validation\Validator\Identical;
+
+use Phalcon\Forms\Element\Select as Select;
 
 class InvoicesForm extends Form
 {
@@ -41,11 +45,10 @@ class InvoicesForm extends Form
       $this->add(new Hidden("id"));
     }
 
-    // name
-    $name = new Text('name');
-    $name->setLabel("Name");
-    $name->setFilters(array('striptags', 'string'));
-    $name->addValidators(
+    // invoice_number
+    $invoice_number = new Numeric('invoice_number');
+    $invoice_number->setLabel("Invoice Number");
+    $invoice_number->addValidators(
       [
         new PresenceOf(
           ['cancelOnFail' => true]
@@ -55,9 +58,39 @@ class InvoicesForm extends Form
         )
       ]
     );
-    $this->add($name);
-    unset($name);
+    $this->add($invoice_number);
+    unset($invoice_number);
 
+    $customer = new Select('customer_id', \Modules\Companies\Models\Companies::find(), array(
+      'using'      => array('id', 'name'),
+      'useEmpty'   => true,
+      'emptyText'  => '---- please fill company ---',
+      'emptyValue' => ''
+    ));
+    $customer->setLabel("Customer");
+    $this->add($customer);
+
+    $invoice_status = new Select('invoice_status', \Modules\Invoices\Models\InvoiceStatusses::find(), array(
+      'using'      => array('id', 'name'),
+      'useEmpty'   => true,
+      'emptyText'  => '---- please fill status ---',
+      'emptyValue' => ''
+    ));
+    $invoice_status->setLabel("Status");
+    $this->add($invoice_status);
+    unset($invoice_status);
+
+    // invoice_date
+    $invoice_date = new Date('invoice_date');
+    $invoice_date->setLabel("Date");
+    $this->add($invoice_date);
+    unset($invoice_date);
+
+    // invoice_total
+    $invoice_total = new Numeric('invoice_total');
+    $invoice_total->setLabel("Total");
+    $this->add($invoice_total);
+    unset($invoice_total);
     /*
     More invoice fields and their types!
     */

@@ -10,11 +10,32 @@ class Invoices extends \Phalcon\Mvc\Model
 
   public $address;
 
+//$this->belongsTo("gallery_item_id", "Vokuro\Models\GalleryItems", "id", array( "alias" => "GalleryItem"));
+//$this->belongsTo("gallery_category_id", "Vokuro\Models\GalleryCategories", "id", array( "alias" => "GalleryCategory"));
+
   /**
    *
    */
   public function initialize() {
-    // $this->belongsTo();// more info about relations, see the documentation.
+    $this->belongsTo(
+      'customer_id',
+      'Modules\Companies\Models\Companies',
+      'id',
+      array(
+        'reusable' => true,
+        'alias'    => 'customer'
+      )
+    );
+    $this->belongsTo(
+      'invoice_status',
+      'Modules\Invoices\Models\InvoiceStatusses',
+      'id',
+      array(
+        'reusable' => true,
+        'alias'    => 'status'
+      )
+    );
+
   }// initialize
 
   /**

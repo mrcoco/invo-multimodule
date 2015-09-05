@@ -1,48 +1,56 @@
+{{ content() }}
+
 {{ flash.output() }}
 
-<p>
-    <h2>Your Invoices (not from DB Yet)</h2>
-</p>
+<ul class="pager">
+    <li class="previous pull-left">
+        {{ link_to("invoices", "&larr; Go Back") }}
+    </li>
+    <li class="pull-right">
+        {{ link_to("invoices/add", "Create invoice") }}
+    </li>
+</ul>
 
-<table class="table table-bordered table-striped">
-    <thead>
+{% for invoice in page.items %}
+    {% if loop.first %}
+        <table class="table table-bordered table-striped" align="center">
+        <thead>
         <tr>
-            <td>Number</td>
-            <td>Customer</td>
-            <td>Date</td>
-            <td>Total</td>
-            <td>Status</td>
+            <th>Number</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
         </tr>
-    </thead>
+        </thead>
+    {% endif %}
     <tbody>
-        <tr>
-            <td>51001</td>
-            <td>Friðrik Þór Friðriksson</td>
-            <td>2014-04-02</td>
-            <td align="right">12.50</td>
-            <td><span class="label label-success">Success</span></td>
-        </tr>
-        <tr>
-            <td>51002</td>
-            <td>Keith Carradine</td>
-            <td>2014-04-04</td>
-            <td align="right">22.75</td>
-            <td><span class="label label-important">Rejected</span></td>
-        </tr>
-        <tr>
-            <td>51003</td>
-            <td>Nico Engelbrecht</td>
-            <td>2014-04-04</td>
-            <td align="right">6.50</td>
-            <td><span class="label label-success">Success</span></td>
-        </tr>
-        <tr>
-            <td>51004</td>
-            <td>Clinton Kayser</td>
-            <td>2014-04-07</td>
-            <td align="right">11.50</td>
-            <td><span class="label label-success">Success</span></td>
-        </tr>
+    <tr>
+        <td>{{ invoice.invoice_number }}</td>
+        <td>{{ invoice.customer.name }}</td>
+        <td>{{ invoice.invoice_date }}</td>
+        <td>{{ invoice.invoice_total }}</td>
+        <td>{{ invoice.status.name }}</td>
+        <td width="7%">{{ link_to("invoices/edit/" ~ invoice.id, '<i class="glyphicon glyphicon-edit"></i> Edit', "class": "btn btn-default") }}</td>
+        <td width="7%">{{ link_to("invoices/delete/" ~ invoice.id, '<i class="glyphicon glyphicon-remove"></i> Delete', "class": "btn btn-default") }}</td>
+    </tr>
     </tbody>
-</table>
-
+    {% if loop.last %}
+        <tbody>
+        <tr>
+            <td colspan="7" align="right">
+                <div class="btn-group">
+                    {{ link_to("invoices/search", '<i class="icon-fast-backward"></i> First', "class": "btn btn-default") }}
+                    {{ link_to("invoices/search?page=" ~ page.before, '<i class="icon-step-backward"></i> Previous', "class": "btn btn-default") }}
+                    {{ link_to("invoices/search?page=" ~ page.next, '<i class="icon-step-forward"></i> Next', "class": "btn btn-default") }}
+                    {{ link_to("invoices/search?page=" ~ page.last, '<i class="icon-fast-forward"></i> Last', "class": "btn btn-default") }}
+                    <span class="help-inline">{{ page.current }}/{{ page.total_pages }}</span>
+                </div>
+            </td>
+        </tr>
+        <tbody>
+        </table>
+    {% endif %}
+{% else %}
+    No invoices are recorded
+{% endfor %}

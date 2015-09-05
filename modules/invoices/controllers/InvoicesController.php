@@ -25,29 +25,12 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
    *
    */
   public function browseAction() {
-    echo "browseAction (Invoices)<br />";
-    /*
-    // generate some form for delete action
-    $form = new \Phalcon\Forms\Form();
-    $csrf = new \Phalcon\Forms\Element\Hidden('csrf', ['value' => $this->security->getToken()]);
-    $csrf->addValidator(
-      new \Phalcon\Validation\Validator\Identical(
-        array(
-          'value'   => $this->security->getSessionToken(),
-          'message' => 'CSRF validation failed'
-        )
-      )
-    );
-    $form->add($csrf);
-
-    $this->view->setVar('form', $form);
-    unset($form);
-    */
-
     $current_page = (int)$this->request->get('page', null, 1);
+
     $invoices = \Modules\Invoices\Models\Invoices::query()
       ->order('id DESC')
       ->execute();
+
     $paginator = new \Phalcon\Paginator\Adapter\Model(
       array(
         'data'  => $invoices,
@@ -104,7 +87,6 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
     }
     $this->view->setVars($output);
     unset($form, $output);
-    $this->view->pick('index/form');
   } /* addAction */
 
   /**
@@ -146,7 +128,6 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
 
     $this->view->setVars($output);
     unset($form, $output);
-    $this->view->pick('index/form');
   } /* editAction */
 
   /**
@@ -158,8 +139,8 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
       $dispatcher->forward(array(
         'namespace'  => '\\Modules\\Invoices\\Controllers',
         'module'     => 'invoices',
-        'controller' => 'index',
-        'action'     => 'index'
+        'controller' => 'invoices',
+        'action'     => 'browse'
       ));
 
       return false;
@@ -187,9 +168,9 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
 
       $form->clear();
 
-      $this->flash->success("Company was created successfully");
+      $this->flash->success("Invoice was created successfully");
 
-      return $this->response->redirect('/invoices/index');
+      return $this->response->redirect('/invoices');
     }
   } /* createAction */
 
@@ -204,8 +185,8 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
       $dispatcher->forward(array(
         'namespace'  => '\\Modules\\Invoices\\Controllers',
         'module'     => 'invoices',
-        'controller' => 'index',
-        'action'     => 'index'
+        'controller' => 'invoices',
+        'action'     => 'browse'
       ));
 
       return false;

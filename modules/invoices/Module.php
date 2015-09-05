@@ -25,12 +25,16 @@ class Module extends \Extend\ModulesAbstract
 
     $loader = new Loader();
 
+    $config = include APP_DIR . '/config/config.php';
+
     $loader->registerNamespaces(
       array(
         $this->controller_namespace => __DIR__ . '/controllers/',
         'Modules\\Invoices\\Models' => __DIR__ . '/models/',
         'Modules\\Invoices\\Forms'  => __DIR__ . '/forms',
-        'Core\\Controllers'         => APPFULLPATH . '/controllers/',
+        'Modules\\Companies\\Models' => $config->application->modulesDir .'/companies/models/',
+        'Modules\\Products\\Models' => $config->application->modulesDir .'/products/models/',
+        'Core\\Controllers'         => APP_DIR . '/controllers/',
       )
     );
 

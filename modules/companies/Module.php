@@ -21,11 +21,16 @@ class Module extends \Extend\ModulesAbstract
    */
   public function registerAutoloaders(\Phalcon\DiInterface $di = null) {
     $loader = new Loader();
+
+    $config = include APP_DIR . '/config/config.php';
+
     $loader->registerNamespaces(
       array(
         'Modules\Companies\Controllers' => __DIR__ . '/controllers/',
         'Modules\Companies\Models'      => __DIR__ . '/models/',
         'Modules\Companies\Forms'       => __DIR__ . '/forms',
+        'Modules\\Invoices\\Models'     => $config->application->modulesDir .'/invoices/models/',
+        'Modules\\Products\\Models'     => $config->application->modulesDir .'/products/models/',
         'Vokuro\Controllers'            => APP_DIR . '/controllers/',
       )
     );

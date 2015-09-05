@@ -25,12 +25,16 @@ class Module extends \Extend\ModulesAbstract
 
     $loader = new Loader();
 
+    $config = include APP_DIR . '/config/config.php';
+
     $loader->registerNamespaces(
       array(
         $this->controller_namespace => __DIR__ . '/controllers/',
         'Modules\\Products\\Models' => __DIR__ . '/models/',
         'Modules\\Products\\Forms'  => __DIR__ . '/forms',
-        'Core\\Controllers'         => APPFULLPATH . '/controllers/',
+          // Just in case : External Modules need to be in the namespace
+        'Modules\\Companies\\Models' => $config->application->modulesDir .'/companies/models/',
+        'Core\\Controllers'         => APP_DIR . '/controllers/',
       )
     );
 

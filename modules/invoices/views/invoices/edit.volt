@@ -1,10 +1,10 @@
 {{ flash.output() }}
 
-{{ form("companies/save", 'role': 'form') }}
+{{ form("invoices/save", 'role': 'form') }}
 
 <ul class="pager">
     <li class="previous pull-left">
-        {{ link_to("companies", "&larr; Go Back") }}
+        {{ link_to("invoices", "&larr; Go Back") }}
     </li>
     <li class="pull-right">
         {{ submit_button("Save", "class": "btn btn-success") }}
@@ -13,7 +13,7 @@
 
 {{ content() }}
 
-<h2>Edit companies</h2>
+<h2>Edit an Invoice</h2>
 
 <fieldset>
 
@@ -32,4 +32,4 @@
 
 </fieldset>
 
-</form>
+{{ end_form }}
