@@ -28,7 +28,7 @@
     <tr>
         <td>{{ invoice.invoice_number }}</td>
         <td>{{ invoice.customer.name }}</td>
-        <td>{{ invoice.invoice_date }}</td>
+        <td>{{ date('d-m-Y', strtotime(invoice.invoice_date)) }}</td>
         <td>{{ invoice.invoice_total }}</td>
         <td>{{ invoice.status.name }}</td>
         <td width="7%">{{ link_to("invoices/edit/" ~ invoice.id, '<i class="glyphicon glyphicon-edit"></i> Edit', "class": "btn btn-default") }}</td>
