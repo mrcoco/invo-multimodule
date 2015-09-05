@@ -22,7 +22,6 @@ $loader->registerDirs(
 $loader->registerNamespaces(array(
   'Vokuro\Models'                   => $config->application->modelsDir,
   'Vokuro\Controllers'              => $config->application->controllersDir,
-  'Modules\\Companies\\Controllers' => APP_DIR . '/../modules/companies/controllers/',
   'Vokuro\Forms'                    => $config->application->formsDir,
   'Vokuro'                          => $config->application->libraryDir,
   'Extend'                          => $config->application->extendDir,

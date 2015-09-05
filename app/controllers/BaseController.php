@@ -16,7 +16,7 @@ class BaseController extends Controller
    * @todo Get Title from the Settings table and prepend that title
    */
   protected function initialize() {
-    $this->tag->prependTitle('INVO MultiModule | ');
+    //$this->tag->prependTitle('INVO MultiModule | ');
     $this->view->setTemplateBefore('private');
   }
 
