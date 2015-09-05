@@ -4,10 +4,10 @@
 <?php echo $this->elements->getTabs(); ?>
 <ul class="pager">
   <li class="previous pull-left">
-    <?php echo $this->tag->linkTo(array('companies/index', '&larr; Go Back')); ?>
+    <?php echo $this->tag->linkTo(array('companies/', '&larr; Go Back')); ?>
   </li>
   <li class="pull-right">
-    <?php echo $this->tag->linkTo(array('companies/index/add', 'Create companies')); ?>
+    <?php echo $this->tag->linkTo(array('companies/add', 'Create companies')); ?>
   </li>
 </ul>
 
@@ -19,7 +19,7 @@
   } ?>
 </div>
 <?php
-echo $this->tag->form(array('action' => 'companies/index/multiple', 'class' => 'form-manage-data')) . "\n";
+echo $this->tag->form(array('action' => 'companies/multiple', 'class' => 'form-manage-data')) . "\n";
 echo $form->render('csrf', array('value' => $this->security->getToken(), 'data-token-name' => $this->security->getTokenKey())) . "\n";
 
 ?>
@@ -71,10 +71,10 @@ echo $form->render('csrf', array('value' => $this->security->getToken(), 'data-t
       <td><?php echo $company->address; ?></td>
       <td><?php echo $company->city; ?></td>
       <td
-        width="7%"><?php echo $this->tag->linkTo(array('companies/index/edit/' . $company->id, '<i class="glyphicon glyphicon-edit"></i> Edit', 'class' => 'btn btn-default')); ?>
+        width="7%"><?php echo $this->tag->linkTo(array('companies/edit/' . $company->id, '<i class="glyphicon glyphicon-edit"></i> Edit', 'class' => 'btn btn-default')); ?>
       </td>
       <td
-        width="7%"><?php echo $this->tag->linkTo(array('companies/index/delete/' . $company->id, '<i class="glyphicon glyphicon-remove"></i> Delete', 'class' => 'btn btn-default')); ?>
+        width="7%"><?php echo $this->tag->linkTo(array('companies/delete/' . $company->id, '<i class="glyphicon glyphicon-remove"></i> Delete', 'class' => 'btn btn-default')); ?>
       </td>
     </tr>
   <?php

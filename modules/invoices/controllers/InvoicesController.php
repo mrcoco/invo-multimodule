@@ -175,7 +175,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('invoices/index/add');
+        return $this->response->redirect('invoices/add');
       }
 
       if ($invoice->save() == false) {
@@ -183,7 +183,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        $this->response->redirect('invoices/index/add');
+        $this->response->redirect('invoices/add');
       }
 
       $form->clear();

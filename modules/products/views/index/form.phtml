@@ -1,4 +1,4 @@
-<!-- /modules/products/views/index/form.phtml -->
+<!-- /modules/products/views/index/form.volt -->
 
 <div class="form-result-placeholder">
   <?php if (isset($err_msg)) {
@@ -9,7 +9,7 @@
 <?php
 if ($this->dispatcher->getActionName() == "edit") {
   echo "<h1>Edit a Product: (ProductName)</h1>";
-  echo $this->tag->form(array('products/index/save', 'role' => 'form'));
+  echo $this->tag->form(array('products/save', 'role' => 'form'));
 } else {
   echo "<h1>Add a Product</h1>";
   echo $this->tag->form(array('products/create'));

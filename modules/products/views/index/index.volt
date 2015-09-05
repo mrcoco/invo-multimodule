@@ -1,4 +1,4 @@
-<!-- /modules/products/views/index/index.php -->
+<!-- /modules/products/views/index.volt -->
 
 <?php echo $this->elements->getTabs(); ?>
 <ul class="pager">
@@ -6,7 +6,7 @@
     <?php echo $this->tag->linkTo(array('products/index', '&larr; Go Back')); ?>
   </li>
   <li class="pull-right">
-    <?php echo $this->tag->linkTo(array('products/index/add', 'Create Product')); ?>
+    <?php echo $this->tag->linkTo(array('products/add', 'Create Product')); ?>
   </li>
 </ul>
 
@@ -18,7 +18,7 @@
   } ?>
 </div>
 <?php
-echo $this->tag->form(array('action' => 'products/index/multiple', 'class' => 'form-manage-data')) . "\n";
+echo $this->tag->form(array('action' => 'products/multiple', 'class' => 'form-manage-data')) . "\n";
 echo $form->render('csrf', array('value' => $this->security->getToken(), 'data-token-name' => $this->security->getTokenKey())) . "\n";
 ?>
 <table class="table table-bordered table-striped">
@@ -70,10 +70,10 @@ echo $form->render('csrf', array('value' => $this->security->getToken(), 'data-t
         <td><?php echo $product->price; ?></td>
         <td><?php echo $product->getActiveDetail(); ?></td>
       <td
-        width="7%"><?php echo $this->tag->linkTo(array('products/index/edit/' . $product->id, '<i class="glyphicon glyphicon-edit"></i> Edit', 'class' => 'btn btn-default')); ?>
+        width="7%"><?php echo $this->tag->linkTo(array('products/edit/' . $product->id, '<i class="glyphicon glyphicon-edit"></i> Edit', 'class' => 'btn btn-default')); ?>
       </td>
       <td
-        width="7%"><?php echo $this->tag->linkTo(array('products/index/delete/' . $product->id, '<i class="glyphicon glyphicon-remove"></i> Delete', 'class' => 'btn btn-default')); ?>
+        width="7%"><?php echo $this->tag->linkTo(array('products/delete/' . $product->id, '<i class="glyphicon glyphicon-remove"></i> Delete', 'class' => 'btn btn-default')); ?>
       </td>
       </tr>
     <?php

@@ -10,7 +10,7 @@
 <?php
 if ($this->dispatcher->getActionName() == "edit") {
   echo "<h1>Edit a Company: (CompanyName)</h1>";
-  echo $this->tag->form(array('companies/index/save', 'role' => 'form'));
+  echo $this->tag->form(array('companies/save', 'role' => 'form'));
 } else {
   echo "<h1>Add a Company</h1>";
   echo $this->tag->form(array('companies/create'));

@@ -256,7 +256,7 @@ class ProductsController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        $this->response->redirect('products/index/edit/' . $id);
+        $this->response->redirect('products/edit/' . $id);
       }
 
       $form->clear();

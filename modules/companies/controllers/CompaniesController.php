@@ -174,7 +174,7 @@ class CompaniesController extends \Vokuro\Controllers\BaseController
           $this->flash->error($message);
         }
 
-        return $this->response->redirect('companies/index/add');
+        return $this->response->redirect('companies/add');
       }
 
       if ($company->save() == false) {
