@@ -42,7 +42,7 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
 
     $this->view->setVar('form', $form);
     unset($form);
-
+    */
 
     $current_page = (int)$this->request->get('page', null, 1);
     $invoices = \Modules\Invoices\Models\Invoices::query()
@@ -57,7 +57,6 @@ class InvoicesController extends \Vokuro\Controllers\BaseController
     );
     $this->view->setVar('page', $paginator->getPaginate());
     unset($current_page, $invoices, $paginator);
-    */
   }  /* browseAction */
 
   /**
