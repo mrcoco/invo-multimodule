@@ -12,11 +12,15 @@ class Products extends \Phalcon\Mvc\Model
    * Products initializer
    */
   public function initialize() {
-    /*
-    $this->hasMany('product_types_id', 'Modules\Models\ProductTypes', 'id', array(
-      'reusable' => true
-    ));
-    */
+    $this->belongsTo(
+      'product_types_id',
+      'Modules\Products\Models\ProductTypes',
+      'id',
+      array(
+        'reusable' => true,
+        'alias'    => 'productTypes'
+      )
+    );
   }
 
   /**

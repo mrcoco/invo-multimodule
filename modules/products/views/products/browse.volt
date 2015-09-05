@@ -25,7 +25,7 @@
     {% endif %}
     <tbody>
     <tr>
-        <td>&nbsp;</td>
+        <td>{{ product.productTypes.name }}</td>
         <td>{{ product.name }}</td>
         <td>${{ "%.2f"|format(product.price) }}</td>
         <td>{{ product.getActiveDetail() }}</td>
@@ -40,10 +40,10 @@
         <tr>
             <td colspan="7" align="right">
                 <div class="btn-group">
-                    {{ link_to("products/search", '<i class="icon-fast-backward"></i> First', "class": "btn") }}
-                    {{ link_to("products/search?page=" ~ page.before, '<i class="icon-step-backward"></i> Previous', "class": "btn") }}
-                    {{ link_to("products/search?page=" ~ page.next, '<i class="icon-step-forward"></i> Next', "class": "btn") }}
-                    {{ link_to("products/search?page=" ~ page.last, '<i class="icon-fast-forward"></i> Last', "class": "btn") }}
+                    {{ link_to("products/browse", '<i class="icon-fast-backward"></i> First', "class": "btn") }}
+                    {{ link_to("products/browse?page=" ~ page.before, '<i class="icon-step-backward"></i> Previous', "class": "btn") }}
+                    {{ link_to("products/browse?page=" ~ page.next, '<i class="icon-step-forward"></i> Next', "class": "btn") }}
+                    {{ link_to("products/browse?page=" ~ page.last, '<i class="icon-fast-forward"></i> Last', "class": "btn") }}
                     <span class="help-inline">{{ page.current }} of {{ page.total_pages }}</span>
                 </div>
             </td>

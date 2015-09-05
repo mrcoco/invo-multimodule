@@ -23,10 +23,11 @@ class ProductTypes extends Model
    * ProductTypes initializer
    */
   public function initialize() {
-    $this->hasMany('id', 'Modules\Models\Products', 'product_types_id', array(
+    $this->belongsTo('id', 'Modules\Models\Products', 'product_types_id', array(
       'foreignKey' => array(
         'message' => 'Product Type cannot be deleted because it\'s used in Products'
-      )
+      ),
+      'reusable'  =>  true
     ));
   }
 }

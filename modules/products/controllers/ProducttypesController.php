@@ -173,11 +173,11 @@ class ProductTypesController extends \Vokuro\Controllers\BaseController
         $this->flash->error($message);
       }
 
-      return $this->forward("producttypes/search");
+      return $this->forward("producttypes/browse");
     }
 
     $this->flash->success("product types was deleted");
 
-    return $this->forward("producttypes/index");
+    return $this->forward("producttypes");
   }
 }
