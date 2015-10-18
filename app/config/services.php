@@ -37,14 +37,13 @@ $di->set('url', function () use ($config) {
   return $url;
 }, true); /* End the Url Component */
 
-
 /**
  * Setting up the view component
  */
 /*
  *  The View di shouldn't be neede here. Right now it's needed for items like 'about', 'contact', etc.
  **/
-$di->set('view', function () use ($config) {
+$di->set('view', function() use ($config) {
 
   $view = new View();
 

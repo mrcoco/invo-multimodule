@@ -1,11 +1,27 @@
 <?php
+
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Development environments
+ */
+const ENVIRONMENT_PRODUCTION = 'production';
+const ENVIRONMENT_DEVELOPMENT = 'development';
+const ENVIRONMENT_MAINTENANCE = 'maintenance';
+
+define ('ENVIRONMENT', ENVIRONMENT_DEVELOPMENT);
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
+
+$aModules = array('frontend', 'admin');
+
 return new \Phalcon\Config(array(
   'database'    => array(
     'adapter'     => 'Mysql',
     'host'        => '127.0.0.1',
     'username'    => 'username',
     'password'    => 'password',
-    'dbname'      => 'invo-multimodule',
+        'dbname' => 'mydb',
     'charset'     => 'utf8',
     'tablePrefix' => '',
   ),

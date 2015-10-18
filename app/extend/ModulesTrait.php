@@ -52,6 +52,8 @@ trait ModulesTrait
     unset($module_caller_name);
 
     $config = include APP_DIR . '/config/config.php';
+
+
     /*
      *  Registering the view component
      *  Figure out which ModuleType we are in and then set up the Layout path according to that viewType

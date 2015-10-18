@@ -1,4 +1,5 @@
 <?php
+
 $loader = new \Phalcon\Loader();
 
 
@@ -20,8 +21,8 @@ $loader->registerDirs(
  * We're a registering a set of directories taken from the configuration file
  */
 $loader->registerNamespaces(array(
-  'Vokuro\Models'                   => $config->application->modelsDir,
   'Vokuro\Controllers'              => $config->application->controllersDir,
+  'Vokuro\Models'                   => $config->application->modelsDir,
   'Vokuro\Forms'                    => $config->application->formsDir,
   'Vokuro'                          => $config->application->libraryDir,
   'Extend'                          => $config->application->extendDir,

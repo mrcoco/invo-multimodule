@@ -4,6 +4,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 try {
 
+	define('APP_PATH', realpath('..') . '/');
   /**
    * Define some useful constants
    */
@@ -16,19 +17,24 @@ try {
   $config = include APP_DIR . '/config/config.php';
 
   /**
-   * Read auto-loader
+	 * Auto-loader configuration
    */
   include APP_DIR . '/config/loader.php';
 
-  /**
-   * Read services
-   */
+	/**
+	 * Load application services
+	 */
   include APP_DIR . '/config/services.php';
 
   /**
    * Handle the request
    */
   $application = new \Phalcon\Mvc\Application($di);
+
+
+
+
+
 
   // register modules
   include APP_DIR . '/config/modules.php';
